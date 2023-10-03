@@ -1,0 +1,31 @@
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.alert {
+  display: flex;
+  width: 600px;
+  border: 1px solid #ddd;
+  padding: 24px;
+  gap: 24px;
+  border-radius: 20px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: aquamarine;
+}
+.alert__button {
+  max-height: 34px;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 20px;
+  background-color: rgb(30, 244, 162);
+  text-decoration: none;
+}
+.alert__info h1 {
+  font-weight: 700;
+}
+
+/*# sourceMappingURL=style.css.map */
