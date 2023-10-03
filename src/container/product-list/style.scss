@@ -1,0 +1,73 @@
+@use'../../lib/service.scss' as s;
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: s.space(10);
+}
+
+.list {
+   padding: s.space(4);
+   gap: s.space(8);
+   width: 600;
+
+   &__title {
+display: inline-block;
+width: 600;
+color: rgb(6, 114, 105);
+
+
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: s.space(10);
+  
+   
+   }
+   &__block {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: s.space(6);
+   }
+  
+}
+.product-card {
+    max-width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: s.space(2);
+    padding: s.space(2) ;
+    border: 1px solid s.color('light');
+    border-radius: 20px;
+
+    &__title {
+        font-size: 20px;
+        font-weight: 600px;
+    }
+    &__description {
+        display: block;
+        max-width: 200px;
+    }
+    &__id {
+        max-width: 100px;
+        color: rgb(98, 233, 188);
+    }
+    &__end {
+        display: flex;
+        justify-content: space-between;
+
+
+
+    }
+    &__end {
+        .price {
+            font-size: 20px ;
+            font-weight: 700;
+         }
+    }
+   &__end {
+    .button-edit {
+        color: rgb(8, 144, 99);
+        text-decoration: none;
+    }
+   }
+}

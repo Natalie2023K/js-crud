@@ -40,7 +40,9 @@ this.#list.push(user)
   }
   static getList = () => 
  this.#list
-  
+
+
+
   static getById = (id) => 
     this.#list.find(user => user.id === id)
    static deleteById = (id) => {
@@ -70,6 +72,61 @@ if(user) {
    }
  }
 };
+//=========================================================
+class Product {
+  static #list = []
+   constructor(name, price, description) {
+    this.id = Math.floor(Math.random() * 1000000)
+    this.createData = new Date().toISOString()
+ this.name = name
+ this.price = price
+ this.description = description
+
+   }
+  
+   static getList = () => {
+  return this.#list
+  
+   }
+   static add = (product) => {
+    this.#list.push(product)
+   }
+  
+   
+   static getById = (id) => {
+
+    return this.#list.find(product => product.id === id)
+   }
+    static updateById = (id, data) => {
+     const product = this.getById(id)
+    
+     if(product) {
+     this. update(product, data)
+     return true
+     } else {
+       return false
+     }
+    }
+ 
+    static update = (
+      product, {id, name, price, description}) => {
+ product.name = name
+ product.price = price
+ product.description = description
+ product.id = Number(id)
+
+    }
+  static deleteById = (id) => {
+  const index = this.#list.findIndex(
+    (product) => product.id === id)
+  if(index !== -1) {
+    this.#list.splice(index, 1)
+    return true
+  } else {
+    return false
+  }
+  }
+ };
 
 
 // ================================================================
@@ -126,6 +183,191 @@ if(user.verifyPassword(password)) {
   })
 
 })
+
+//==============================================
+
+router.post('/product-create', function (req, res) {
+  const {name, price, description} = req.body
+  console.log(req.body)
+  const product = new Product(name, price, description)
+  Product.add(product);
+  console.log(Product.getList());
+
+
+  res.render('alert', {
+
+    style: 'alert',
+    alert: 'Успішно',
+    alert_msg: 'Товар створений',
+  })
+ 
+})
+
+
+
+router.get('/product-create', function (req, res) {
+  const {id} = req.query
+  
+  User.deleteById(Number(id))
+
+  
+
+  res.render('product-create', {
+
+    style: 'product-create',
+   
+  })
+ 
+})
+
+
+router.get('/product-list', function (req, res) {
+  const list = Product.getList()
+
+  
+ 
+
+  
+
+  res.render('product-list', {
+   
+
+    style: 'product-list',
+    data: {
+     products: {
+      list,
+      isEmpty: list.length === 0,
+     }
+    }
+   
+  })
+ 
+})
+
+
+router.get('/product-edit', function (req, res) {
+  const {id} = req.query
+const product =  Product.getById(Number(id))
+// console.log(product)
+if (!product) {
+  res.render('alert', {
+    style: 'alert',
+    alert: 'Товар відсутній',
+  })
+} else {
+  res.render('product-edit', {
+    style: 'product-edit',
+    data: {
+      product,
+    },
+  })
+}
+
+
+//  if(product) {
+
+//   return res.render('product-edit', {
+
+//     style: 'product-edit',
+//     data: {
+//       name: product.name,
+//       price: product.price,
+//       id: product.id,
+//       description: product.description,
+//     }
+   
+//   })
+//  } else {
+//   return res.render('alert', {
+
+//     style: 'alert',
+//    alert: 'Товар відсутній'
+   
+//   })
+//  }
+})
+
+router.post('/product-edit', function (req, res) {
+  const {id, name, price, description} = req.body
+ 
+  const product = Product.getById(Number(id))
+  // product.name = name,
+  // product.price = price,
+  // product.description = description
+  // console.log(id)
+  console.log(product.id)
+  if (!product) {
+    res.render('alert', {
+      style: 'alert',
+      alert: 'Товар відсутній',
+    })
+  } else {
+    product.name = name
+    product.price = price
+    product.description = description
+
+    res.render('alert', {
+        style: 'alert',
+        alert: 'Успішно',
+        alert_msg: 'Товар оновлено',
+      })
+  }
+ 
+// if(product) {
+//   res.render('alert', {
+
+//     style: 'alert',
+//     alert: 'Успішно',
+//     alert_msg: 'Товар створений',
+//   })
+// } else {
+//   product.name = name
+//   product.price = price
+//   product.description = description
+// }
+
+ 
+ 
+})
+
+
+router.get('/product-delete', function (req, res) {
+  const {id} = req.query
+ Product.deleteById(Number(id))
+ res.render('alert', {
+
+  style: 'alert',
+ alert: 'Товар видалений'
+ 
+})
+})
+
+// router.post('/product-update', function (req, res) {
+//   const {id, name, price, description} = req.body
+  
+//   let result = false
+//   const product = Product.getById(Number(id))
+// Product.update(product, {id, name, price, description})
+// result = true
+
+//   res.render('alert', {
+
+//     style: 'alert',
+//     alert: result ?  'Оновлено продукт' : 'Помилка',
+    
+//   })
+ 
+// })
+
+
+
+
 // Підключаємо роутер до бек-енду
+
+//========================================================
+
+
+
+
 module.exports = router
    
