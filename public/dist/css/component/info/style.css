@@ -1,0 +1,15 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info__title {
+  color: rgb(3, 36, 60);
+}
+
+.info__value {
+  color: black;
+}
+
+/*# sourceMappingURL=style.css.map */
