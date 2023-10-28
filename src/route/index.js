@@ -38,21 +38,8 @@ class PurchaseProduct {
     this.amount = amount
 
   }
-  static add = (
-    img,
-    title,
-    description,
-    category,
-    price,
-    
-  ) => {
-    const newProduct = new PurchaseProduct(
-  img,
-  title,
-  description,
-  category,
-  price,
-    )
+  static add = (...data ) => {
+    const newProduct = new PurchaseProduct(...data)
     this.#list.push(newProduct)
   }
   static getList = () => {
@@ -107,7 +94,7 @@ class Purchase {
   static calcBonusAmount = (value) => {
     return value * Purchase.#BONUS_FACTOR
   }
-  static updeteBonusBalance = (email, price, bonusUse = 0) => {
+  static updateBonusBalance = (email, price, bonusUse = 0) => {
     const amount = price * this.calcBonusAmount(price)
     const currentBalance = Purchase.getBonusBalance(email)
     const updateBalance = currentBalance + amount - bonusUse
@@ -551,7 +538,7 @@ const id = Number(req.query.id)
   // ↑↑ сюди вводимо JSON дані
 })
 //=================================================================
-router.get('purchase-list', function(req, res) {
+router.get('/purchase-list', function(req, res) {
   console.log(Purchase.getList())
   res.render('purchase-list', {
     style: 'purchase-list',
@@ -561,7 +548,7 @@ router.get('purchase-list', function(req, res) {
   })
 })
 //============================================
-router.get('purchase-info', function(req, res) {
+router.get('/purchase-info', function(req, res) {
   const id = Number(req.query.id)
   const purchase = Purchase.getById(id)
   const bonus = Purchase.calcBonusAmount(purchase.totalPrice)
@@ -663,7 +650,7 @@ router.post('/purchase-create', function (req, res) {
 
   const product = PurchaseProduct.getById(id)
 
-  if (isNaN(amount) || amount < 1 || amount > 30) {
+  if (product.amount < 1) {
     return res.render('alert-two', {
       style: 'alert-two',
       data: {
@@ -673,7 +660,7 @@ router.post('/purchase-create', function (req, res) {
       }
     })
   }
-
+console.log(product, amount)
   const productPrice = product.price * amount
   const totalPrice = productPrice + Purchase.DELIVERY_PRICE
   const bonus = Purchase.calcBonusAmount(totalPrice)
@@ -701,7 +688,7 @@ router.post('/purchase-create', function (req, res) {
   })
 })
 //=========================================
-router.post('purchase-submit', function(req, res) {
+router.post('/purchase-submit', function(req, res) {
   const id = Number(req.query.id)
   let {
     totalPrice,
@@ -778,10 +765,10 @@ if(bonus || bonus > 0) {
  if(bonus > bonusAmount) {
   bonus = bonusAmount
  }
-  Purchase.updeteBonusBalance(email, totalPrice, bonus)
+  Purchase.updateBonusBalance(email, totalPrice, bonus)
 totalPrice -= bonus
 } else {
-  Purchase.updeteBonusBalance(email, totalPrice, 0)
+  Purchase.updateBonusBalance(email, totalPrice, 0)
 }
 
 if(promocode) {
@@ -804,7 +791,7 @@ const purchase = Purchase.add (
     phone,
     promocode,
     comment,
-    delivery,
+    deliveryPrice,
 
   },
   product

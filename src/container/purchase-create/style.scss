@@ -1,5 +1,5 @@
-@use'../../lib/service.scss' as s;
-
+@use '../../lib/service.scss' as s;
+@use '../../component/purchase-product/style.scss' as purchaseProduct;
 @use '../../component/heading/style.scss' as heading;
 @use '../../component/button/style.scss' as button;
 @use '../../component/field/style.scss' as field;
