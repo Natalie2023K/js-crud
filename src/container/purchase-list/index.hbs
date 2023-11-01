@@ -1,0 +1,50 @@
+{{! 
+Це код container файлу для index сторінки, 
+в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
+ }}
+<main class="main">
+  
+  {{!-- <form method="POST" action="/purchase-submit?id={{id}}" class="form-card"> --}}
+  {{!-- {{> heading title="Інформація про замовлення"}}
+ {{#each data}} 
+ <a href="purchase-info?id={{id}}">
+  <div class="info__purchase">
+    <span class="my__id">ID:{{id}}</span>
+    <span class="my__title">Назва:{{title}}</span>
+    <span class="my__totalPrice">Ціна:{{totalPrice}}</span>
+    <span class="my__bonus">Бонусів нараховано:{{bonus}}</span>
+  </div>
+ </a> --}}
+ <section class="purchase-list">
+  {{#with data.purchase}}
+  {{#each list}}
+  <a href="purchase-info?id={{id}}">
+  <div class="info__purchase">
+    <div class="info-block">
+     <span class="my__id">ID:{{id}}</span>
+    </div>
+    <div class="info-block">
+       <span class="my__title">Назва:</span>
+       <span class="my__title">{{title}}</span>
+    </div>
+<div class="info-block">
+       <span class="my__totalPrice">Ціна:</span>
+       <span class="my__title">{{totalPrice}}</span>
+    </div>
+    <div class="info-block">
+       <span class="my__title">Бонусів нараховано:</span>
+       <span class="my__title">{{bonus}}</span>
+    </div>
+  </div>
+  </a>
+  {{/each}}
+  {{/with}}
+ </section>
+  {{!-- {{/each}} --}}
+</main>
+
+
+{{! 
+    Цей код містить лише те, що буде виводитись в <body>
+    Адже наш layout/default.hbs має вже структуру HTML
+}}
