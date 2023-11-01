@@ -135,10 +135,10 @@ class Purchase {
     //=========
   }
   static getById = (id) => {
-    return Purchase.#list.find((item) => item.id === id)
+    return this.#list.find((purchase) => purchase.id === id)
   }
   static updateById = (id, data) => {
-    const purchase = Purchase.#list.find((item) => item.id === id)
+    const purchase = Purchase.getById(id)
     if(purchase) {
       if(data.firstname)
       purchase.firstname = data.firstname
@@ -540,6 +540,7 @@ const id = Number(req.query.id)
 //=================================================================
 router.get('/purchase-list', function(req, res) {
   console.log(Purchase.getList())
+  
   res.render('purchase-list', {
     style: 'purchase-list',
     data: {
@@ -551,19 +552,118 @@ router.get('/purchase-list', function(req, res) {
 router.get('/purchase-info', function(req, res) {
   const id = Number(req.query.id)
   const purchase = Purchase.getById(id)
-  const bonus = Purchase.calcBonusAmount(purchase.totalPrice)
+  // const bonus = Purchase.calcBonusAmount(
+  //   purchase.totalPrice,
+  //   )
+    console.log('purchase:', purchase)
+  // if(!purchase) {
+  //   return res.render('alert-two', {
+  //     style: 'alert-two',
+  //     data: {
+  //       message: 'Помилка',
+  //       info: 'Замовлення не знайдено',
+  //       link: `/purchase-list`
+  //     }
+  //   })
+  // }
+  res.render('purchase-info', {
+    style:'purchase-info',
+    title: 'Інформація про замовлення',
+    data: {
+      purchase: Purchase.getById(id)
+      // id: purchase.id,
+      // firstname: purchase.firstname,
+      // lastname: purchase.lastname,
+      // phone: purchase.phone,
+      // email: purchase.email,
+      // title: purchase.title,
+      // comment: purchase.comment,
+      // productPrice: purchase.productPrice,
+      // deliveryPrice: purchase.deliveryPrice,
+      // totalPrice: purchase.totalPrice,
+      // bonus: bonus,
+
+
+    }
+  })
+})
+router.get('/purchase-edit', function(req, res) {
+  const id = Number(req.query.id)
+  const purchase = Purchase.getById(id)
   if(!purchase) {
     return res.render('alert-two', {
       style: 'alert-two',
       data: {
         message: 'Помилка',
         info: 'Замовлення не знайдено',
-        link: `purchase-list`
+        link: '/purchase-list'
       }
     })
   }
-  res.render('purchase-info')
+  res.render('purchase-edit', {
+    style: 'purchase-edit',
+    data: {
+      id: purchase.id,
+      firstname: purchase.firstname,
+      lastname: purchase.lastname,
+      phone: purchase.phone,
+      email: purchase.email,
+  
+    }
+  })
 })
+router.post('/purchase-edit-submit', function(req, res) {
+  const id = Number(req.query.id)
+  const purchase = Purchase.getById(id)
+  let {
+    totalPrice,
+    productPrice,
+    deliveryPrice,
+    amount,
+    firstname,
+    lastname,
+    phone,
+    email,
+    promocode,
+    bonus,
+    comment
+  } = req.body
+  if(!purchase) {
+    return res.render('alert-two', {
+      style: 'alert-two',
+      data: {
+        message: 'Помилка',
+        info: 'Замовлення не знайдено',
+        link: `/purchase-list`,
+      }
+    })
+  }
+  if(!firstname || !lastname || !email || !phone) {
+    return res.render('alert-two', {
+      style: 'alert-two',
+      data: {
+        message: "Заповніть обов'язкові поля",
+        info: 'Некоректні дані',
+        link: `/purchase-list`
+      }
+    })
+  }
+  const newInfo = Purchase.updateById(id, {
+    firstname,
+    lastname,
+    phone,
+    email,
+  })
+  res.render('alert-two', {
+    style: 'alert-two',
+    data: {
+      message: 'Успішно',
+      info: 'Дані змінено',
+      link: `/purchase-list`
+    }
+  })
+})
+
 //============================================================
 // router.post('/purchase-create', function (req, res) {
 //   // res.render генерує нам HTML сторінку
@@ -594,7 +694,7 @@ router.get('/purchase-info', function(req, res) {
 // }
 // console.log(product, amount)
 // const productPrice = product.price * amount
-// const totalPrice = productPrice + Purchase.DELIVERY_PRICE
+// const  = productPrice + Purchase.DELIVERY_PRICE
 // const bonus = Purchase.calcBonusAmount(totalPrice)
 
 // res.render('purchase-create', {
@@ -748,7 +848,7 @@ if(
     }
   })
 }
-if(!firstname || !lastname || !email || !phone || !delivery) {
+if(!firstname || !lastname || !email || !phone ||!deliveryPrice) {
   return  res.render('alert-two', {
     style: 'alert-two',
     component: ['button', 'heading'],
