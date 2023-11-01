@@ -133,29 +133,34 @@
   text-decoration: none;
 }
 
+.info-block {
+  background-color: aqua;
+}
+
 .info__purchase {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  margin-bottom: 24px;
 }
 
 .my__id {
-  background-color: rgb(74, 128, 128);
+  background-color: rgb(124, 232, 239);
   color: black;
 }
 
 .my__title {
-  background-color: rgb(74, 128, 128);
+  background-color: rgb(124, 232, 239);
   color: black;
 }
 
 .my__totalPrice {
-  background-color: rgb(74, 128, 128);
+  background-color: rgb(124, 232, 239);
   color: black;
 }
 
 .my__bonus {
-  background-color: rgb(74, 128, 128);
+  background-color: rgb(124, 232, 239);
   color: black;
 }
 

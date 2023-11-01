@@ -16,8 +16,8 @@
   </div>
  </a> --}}
  <section class="purchase-list">
-  {{!-- {{#with data}} --}}
-  {{#each data}}
+  {{#with data.purchase}}
+  {{#each list}}
   <a href="purchase-info?id={{id}}">
   <div class="info__purchase">
     <div class="info-block">
@@ -38,7 +38,7 @@
   </div>
   </a>
   {{/each}}
-  {{!-- {{/with}} --}}
+  {{/with}}
  </section>
   {{!-- {{/each}} --}}
 </main>

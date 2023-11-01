@@ -124,7 +124,7 @@ class Purchase {
     return newPurchase
   } 
   static getList = () => {
-    return Purchase.#list.reverse()
+    return Purchase.#list.reverse() 
     .reverse()
     .map(({id, product: {title}, totalPrice}) => ({
       id,
@@ -539,12 +539,19 @@ const id = Number(req.query.id)
 })
 //=================================================================
 router.get('/purchase-list', function(req, res) {
-  console.log(Purchase.getList())
+  // console.log(Purchase.getList())
+  const list = Purchase.getList()
+  console.log('purchase-list', list)
   
   res.render('purchase-list', {
     style: 'purchase-list',
     data: {
-      list: Purchase.getList()
+      purchase: {
+        list,
+      },
+      // bonus,
+      
+      // list: Purchase.getList()
     }
   })
 })
@@ -584,7 +591,8 @@ router.get('/purchase-info', function(req, res) {
       // bonus: bonus,
 
 
-    }
+    },
+   
   })
 })
 router.get('/purchase-edit', function(req, res) {
