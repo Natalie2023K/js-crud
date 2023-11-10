@@ -27,6 +27,9 @@ a {
     font-size: 24px;
 
 }
+.title__add {
+    color: s.color(light);
+}
 .title__center {
     text-align: center;
 }
@@ -35,21 +38,21 @@ a {
   grid-template-columns: 92px 1fr 42px;
   gap: s.space(7);
   align-items: center;
-  &_list {
-    display: grid;
-    gap: s.space(7);
-  }
+//   &_list {
+//     display: grid;
+//     gap: s.space(7);
+//   }
   &__list {
     display: grid;
     gap: s.space(7);
   }
-  &_content {
+  &__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: s.space(2);
   }
-  &_name {
+  &__name {
     font-size: 24px;
     color: s.color(light);
   }
